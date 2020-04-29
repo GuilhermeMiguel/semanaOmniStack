@@ -1,5 +1,6 @@
 const express = require('express');
 const cors = require('cors');
+const { errors } = require('celebrate');
 const routes = require('./routes'); // ./ ---> Pra dizer que esta na mesma pasta 
 //e nao é uma dependencia de algo externo
 
@@ -9,7 +10,7 @@ const app = express();
 app.use(cors()); // -> se eu estiver em produção eu posso dizer qual front pode acessar essa api
 app.use(express.json());
 app.use(routes);
-
+app.use(errors());
 
 app.listen(3333);
 

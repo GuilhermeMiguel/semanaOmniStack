@@ -5,7 +5,9 @@ module.exports = {
 
     async index(request, response) {
         //Se o parametro page nao existir, por padrao ele é 1
-        const { page = 1} = request.query;
+        const { page = 1 } = request.query;
+
+        const [count] = await connection('incidents').count();
 
         const incidents = await connection('incidents')
             .join('ongs', 'ongs.id', '=', 'incidents.ong_id')    
@@ -48,10 +50,13 @@ module.exports = {
         const incident = await connection('incidents')
             .where('id', id)
             .select('ong_id')
-            .first()
+            .first();
+
         if(incident.ong_id != ong_id){
-            return response.status(401);
+            return response.status(401).json({ error: 'Operation not permitted!' })
         }
+
+        await connection('incidents').where('id', id).delete();
 
         return response.status(204).send();
     }
