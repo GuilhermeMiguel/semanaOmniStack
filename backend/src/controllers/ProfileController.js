@@ -1,7 +1,7 @@
 //Essa classe exporta um objeto com os metodos
 const connection = require('../database/connection');
 
-odule.exports = {
+module.exports = {
 
     async index(request, response) {
         const ong_id = request.headers.authorization;
